@@ -4,6 +4,7 @@ import { CardText } from 'material-ui/Card';
 import AppBar from 'material-ui/AppBar';
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
+import axios from 'axios';
 
 export default class Login extends React.Component {
   constructor(props) {
@@ -23,8 +24,10 @@ export default class Login extends React.Component {
   processForm(event) {
     event.preventDefault();
 
-    console.log('email:', this.state.user.name);
-    console.log('password:', this.state.user.password);
+    const requestUrl = "http://localhost:4000/login";
+    const payload = this.state.user;
+
+    axios.post(requestUrl, payload);
   }
 
   changeUser(event) {
