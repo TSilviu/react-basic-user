@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Card, CardText } from 'material-ui/Card';
+import { CardText } from 'material-ui/Card';
+import AppBar from 'material-ui/AppBar';
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 
@@ -37,44 +38,41 @@ export default class Register extends React.Component {
 
   render() {
     return(
-      <Card>
-        <form onSubmit={this.processForm}>
-          <h2>Sign Up</h2>
+      <form onSubmit={this.processForm}>
+        <AppBar title="Register"/>
 
-          <div>
-            <TextField
-              floatingLabelText="Name"
-              name="name"
-              onChange={this.changeUser}
-              value={this.state.user.name}
-            />
-          </div>
+        <div>
+          <TextField
+            floatingLabelText="Name"
+            name="name"
+            onChange={this.changeUser}
+            value={this.state.user.name}
+          />
+        </div>
 
-          <div>
-            <TextField
-              floatingLabelText="Email"
-              name="email"
-              onChange={this.changeUser}
-              value={this.state.user.email}
-            />
-          </div>
+        <div>
+          <TextField
+            floatingLabelText="Email"
+            name="email"
+            onChange={this.changeUser}
+            value={this.state.user.email}
+          />
+        </div>
 
-          <div>
-            <TextField
-              floatingLabelText="Password"
-              type="password"
-              name="password"
-              onChange={this.changeUser}
-              value={this.state.user.password}
-            />
-          </div>
+        <div>
+          <TextField
+            floatingLabelText="Password"
+            type="password"
+            name="password"
+            onChange={this.changeUser}
+            value={this.state.user.password}
+          />
+        </div>
 
-          <RaisedButton type="submit" label="Register" primary />
+        <RaisedButton type="submit" label="Register" primary />
 
-          <CardText>Already have an account? <Link to={'/login'}>Log in</Link></CardText>
-
-        </form>
-      </Card>
+        <CardText>Already have an account? <Link to={'/login'}>Log in</Link></CardText>
+      </form>
     )
   }
 }

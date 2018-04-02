@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Card, CardText } from 'material-ui/Card';
+import { CardText } from 'material-ui/Card';
+import AppBar from 'material-ui/AppBar';
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 
@@ -36,35 +37,33 @@ export default class Login extends React.Component {
 
   render() {
     return(
-      <Card>
-        <form onSubmit={this.processForm}>
-          <h2>Login</h2>
+      <form onSubmit={this.processForm}>
+      <AppBar title="Login"/>
 
-          <div>
-            <TextField
-              floatingLabelText="Email"
-              name="email"
-              onChange={this.changeUser}
-              value={this.state.user.email}
-            />
-          </div>
+        <div>
+          <TextField
+            floatingLabelText="Email"
+            name="email"
+            onChange={this.changeUser}
+            value={this.state.user.email}
+          />
+        </div>
 
-          <div>
-            <TextField
-              floatingLabelText="Password"
-              type="password"
-              name="password"
-              onChange={this.changeUser}
-              value={this.state.user.password}
-            />
-          </div>
+        <div>
+          <TextField
+            floatingLabelText="Password"
+            type="password"
+            name="password"
+            onChange={this.changeUser}
+            value={this.state.user.password}
+          />
+        </div>
 
-          <RaisedButton type="submit" label="Log in" primary />
+        <RaisedButton type="submit" label="Log in" primary />
 
-          <CardText>Need an account? <Link to={'/register'}>Register</Link></CardText>
+        <CardText>Need an account? <Link to={'/register'}>Register</Link></CardText>
 
-        </form>
-      </Card>
+      </form>
     )
   }
 }
