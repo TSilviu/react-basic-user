@@ -36,7 +36,7 @@ export default class Register extends React.Component {
       axios.post(requestUrl, payload)
         .then(
           function onSuccess(response) {
-
+            self.setState({error: ''});
           },
           function onError(res) {
             self.setState({error: res.response.data});

@@ -26,6 +26,7 @@ app.post('/register', function registerHandler(req, res){
         [req.body.name, req.body.email, req.body.password, 100],
         () => {}
       );
+      res.status(200);
     } else {
       res.status(400).send('User already exists, please login.');
     }
@@ -42,15 +43,13 @@ app.post('/login', function loginHandler(req, res){
 
     if(row) {
       if(row.password === req.body.password) {
-        response.message = 'Successfully logged in!'
+        res.status(200);
       } else {
         res.status(401);
       }
     } else {
       res.status(401);
     }
-
-    res.send(JSON.stringify(response));
   }
 })
 
