@@ -11,6 +11,7 @@ export default class Register extends React.Component {
     super(props);
 
     this.state = {
+      error: '',
       user: {
         name: '',
         email: '',
@@ -25,10 +26,23 @@ export default class Register extends React.Component {
   processForm(event) {
     event.preventDefault();
 
+    const self = this;
     const requestUrl = "http://localhost:4000/register";
     const payload = this.state.user;
 
-    axios.post(requestUrl, payload);
+    if(payload.name === '' || payload.email === '' || payload.password === '') {
+        this.setState({error: 'All details required!'});
+    } else {
+      axios.post(requestUrl, payload)
+        .then(
+          function onSuccess(response) {
+
+          },
+          function onError(res) {
+            self.setState({error: res.response.data});
+          }
+        );
+    }
   }
 
   changeUser(event) {
@@ -43,6 +57,8 @@ export default class Register extends React.Component {
     return(
       <form onSubmit={this.processForm}>
         <AppBar title="Register"/>
+
+        {this.state.error !== '' && <p className="error">{this.state.error}</p>}
 
         <div>
           <TextField

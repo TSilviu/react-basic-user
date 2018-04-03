@@ -17,11 +17,19 @@ app.use(function(req, res, next) {
 });
 
 app.post('/register', function registerHandler(req, res){
-  db.run(
-    'insert into users (name, email, password, total) values (?, ?, ?, ?)',
-    [req.body.name, req.body.email, req.body.password, 100],
-    () => {}
-  )
+  db.get("select * from users where email= ?", req.body.email, userHandler);
+
+  function userHandler(err, row) {
+    if(!row) {
+      db.run(
+        'insert into users (name, email, password, total) values (?, ?, ?, ?)',
+        [req.body.name, req.body.email, req.body.password, 100],
+        () => {}
+      );
+    } else {
+      res.status(400).send('User already exists, please login.');
+    }
+  }
 })
 
 app.post('/login', function loginHandler(req, res){
@@ -34,7 +42,6 @@ app.post('/login', function loginHandler(req, res){
 
     if(row) {
       if(row.password === req.body.password) {
-        res.status = 200;
         response.message = 'Successfully logged in!'
       } else {
         res.status(401);
