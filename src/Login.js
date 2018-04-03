@@ -11,6 +11,7 @@ export default class Login extends React.Component {
     super(props);
 
     this.state = {
+      error: '',
       user: {
         email: '',
         password: ''
@@ -24,10 +25,19 @@ export default class Login extends React.Component {
   processForm(event) {
     event.preventDefault();
 
+    const self = this;
     const requestUrl = "http://localhost:4000/login";
     const payload = this.state.user;
 
-    axios.post(requestUrl, payload);
+    axios.post(requestUrl, payload)
+      .then(
+        function onSuccess(response) {
+          console.log(response);
+        },
+        function onError(message) {
+          self.setState({error: 'Incorrect email or password!'});
+        }
+      );
   }
 
   changeUser(event) {
@@ -42,6 +52,8 @@ export default class Login extends React.Component {
     return(
       <form onSubmit={this.processForm}>
       <AppBar title="Login"/>
+
+        {this.state.error !== '' && <p className="error">{this.state.error}</p>}
 
         <div>
           <TextField
