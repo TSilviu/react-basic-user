@@ -43,12 +43,12 @@ app.post('/login', function loginHandler(req, res){
 
     if(row) {
       if(row.password === req.body.password) {
-        res.status(200);
+        res.send();
       } else {
-        res.status(401);
+        res.status(401).send('Incorrect password!');
       }
     } else {
-      res.status(401);
+      res.status(401).send('Incorrect email!');
     }
   }
 })

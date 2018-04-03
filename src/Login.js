@@ -32,10 +32,10 @@ export default class Login extends React.Component {
     axios.post(requestUrl, payload)
       .then(
         function onSuccess(response) {
-          console.log(response);
+          self.setState({error: ''});
         },
-        function onError(message) {
-          self.setState({error: 'Incorrect email or password!'});
+        function onError(res) {
+          self.setState({error: res.response.data});
         }
       );
   }
