@@ -69,10 +69,21 @@ app.post('/transfer', function tranferHandler(req, res){
         transactionHandler
       );
 
+      const total = row.total + req.body.amount;
       function transactionHandler(err, row){
         if(err) throw err;
 
-        res.send(200);
+        db.run(
+          'update users set total= ? where email= ?',
+          [total, req.body.toEmail],
+          totalHandler
+        );
+
+        function totalHandler(err, row) {
+          if(err) throw err;
+
+          res.send(200);
+        }
       }
     } else {
       res.status(400).send('No such email!');
