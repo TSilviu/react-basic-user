@@ -45,8 +45,28 @@ app.post('/login', function loginHandler(req, res){
           name: row.name,
           email: row.email,
           bambeuros: row.total
+        };
+
+        db.all(
+          "select * from transactions where fromEmail= ?", req.body.email,
+          getTransactionsFromUserHandler
+        );
+
+        function getTransactionsFromUserHandler(err, rows){
+          if(err) throw err;
+          response.fromUser = rows;
+          db.all(
+            "select * from transactions where toEmail= ?", req.body.email,
+            getTransactionsToUserHandler
+          );
+
+          function getTransactionsToUserHandler(err, rows) {
+            if(err) throw err;
+            response.toUser = rows;
+
+            res.send(JSON.stringify(response));
+          }
         }
-        res.send(JSON.stringify(response));
       } else {
         res.status(401).send('Incorrect password!');
       }

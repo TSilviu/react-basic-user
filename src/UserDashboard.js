@@ -9,6 +9,7 @@ export default class UserDashboard extends React.Component {
     super(props);
 
     this.state = {
+      successMessage: '',
       error: '',
       transfer: {
         toEmail: '',
@@ -37,7 +38,8 @@ export default class UserDashboard extends React.Component {
       axios.post(requestUrl, payload)
       .then(
         function onSuccess(response) {
-          self.setState({errpr: ''});
+          self.setState({error: ''});
+          self.setState({successMessage: 'Transaction successful!'});
         },
         function onError(res) {
           self.setState({error: res.response.data});
@@ -58,7 +60,23 @@ export default class UserDashboard extends React.Component {
 
 
   render() {
-    const { name, bambeuros } = this.props.user;
+    const { name, bambeuros, fromUser, toUser } = this.props.user;
+
+    let fromUserTransactions;
+    let toUserTransactions;
+
+    if(fromUser) {
+      fromUserTransactions = fromUser.map(
+        transaction => <div>To {transaction.toEmail}, amount: {transaction.amount}</div>
+      );
+    }
+
+    if(toUser) {
+      toUserTransactions = toUser.map(
+        transaction => <div>From {transaction.fromEmail}, amount: {transaction.amount}</div>
+      )
+    }
+
     return (
       <div>
       <AppBar title="Dashboard"/>
@@ -68,6 +86,10 @@ export default class UserDashboard extends React.Component {
         <p>Send some bambeuros:</p>
 
         {this.state.error !== '' && <p className="error">{this.state.error}</p>}
+        {
+          this.state.successMessage !== '' &&
+          <p className="success">{this.state.successMessage}</p>
+        }
 
         <div>
           <TextField
@@ -92,12 +114,9 @@ export default class UserDashboard extends React.Component {
 
       <h2>Transactions:</h2>
       <h3>Sent by you:</h3>
-      <div>To {name}, amount: some amount</div>
-      <div>To {name}, amount: some amount</div>
+      {fromUserTransactions}
       <h3>Received by you:</h3>
-      <div>From {name}, amount: some amount</div>
-      <div>From {name}, amount: some amount</div>
-      <div>From {name}, amount: some amount</div>
+      {toUserTransactions}
       </div>
     );
   }
