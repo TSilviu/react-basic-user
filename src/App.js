@@ -46,7 +46,10 @@ class App extends Component {
               path="/dashboard"
               render={() => <UserDashboard user={this.state.user} />}
             />
-            <Redirect from='/login' to='/dashboard' />
+            {
+              window.location.pathname !== '/dashboard' &&
+              <Redirect from='/login' to='/dashboard' />
+            }
           </div>
         }
         {

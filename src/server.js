@@ -24,9 +24,14 @@ app.post('/register', function registerHandler(req, res){
       db.run(
         'insert into users (name, email, password, total) values (?, ?, ?, ?)',
         [req.body.name, req.body.email, req.body.password, 100],
-        () => {}
+        createUserHandler
       );
-      res.status(200);
+
+      function createUserHandler(err) {
+        if(err) throw err;
+
+        res.status(200).send();
+      }
     } else {
       res.status(400).send('User already exists, please login.');
     }

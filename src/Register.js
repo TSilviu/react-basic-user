@@ -11,6 +11,7 @@ export default class Register extends React.Component {
     super(props);
 
     this.state = {
+      successMessage: '',
       error: '',
       user: {
         name: '',
@@ -37,6 +38,7 @@ export default class Register extends React.Component {
         .then(
           function onSuccess(response) {
             self.setState({error: ''});
+            self.setState({successMessage: 'Registered successfully!'});
           },
           function onError(res) {
             self.setState({error: res.response.data});
@@ -59,6 +61,10 @@ export default class Register extends React.Component {
         <AppBar title="Register"/>
 
         {this.state.error !== '' && <p className="error">{this.state.error}</p>}
+        {
+          this.state.successMessage !== '' &&
+          <p className="success">{this.state.successMessage}</p>
+        }
 
         <div>
           <TextField
