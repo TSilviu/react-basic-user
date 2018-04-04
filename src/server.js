@@ -37,13 +37,16 @@ app.post('/login', function loginHandler(req, res){
   db.get("select * from users where email= ?", req.body.email, userHandler)
 
   function userHandler(err, row) {
-    const response = {};
-
     if(err) throw err;
 
     if(row) {
       if(row.password === req.body.password) {
-        res.send();
+        const response = {
+          name: row.name,
+          email: row.email,
+          bambeuros: row.total
+        }
+        res.send(JSON.stringify(response));
       } else {
         res.status(401).send('Incorrect password!');
       }

@@ -32,8 +32,9 @@ export default class Login extends React.Component {
     axios.post(requestUrl, payload)
       .then(
         function onSuccess(response) {
+          const loggedInUser = response.data;
           self.setState({error: ''});
-          self.props.onLogin(self.state.user);
+          self.props.onLogin(loggedInUser);
         },
         function onError(res) {
           self.setState({error: res.response.data});
