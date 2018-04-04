@@ -81,6 +81,6 @@ export default class Login extends React.Component {
         <CardText>Need an account? <Link to={'/register'}>Register</Link></CardText>
 
       </form>
-    )
+    );
   }
 }

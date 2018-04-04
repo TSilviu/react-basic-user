@@ -29,7 +29,6 @@ app.post('/register', function registerHandler(req, res){
 
       function createUserHandler(err) {
         if(err) throw err;
-
         res.status(200).send();
       }
     } else {
@@ -39,7 +38,7 @@ app.post('/register', function registerHandler(req, res){
 })
 
 app.post('/login', function loginHandler(req, res){
-  db.get("select * from users where email= ?", req.body.email, userHandler)
+  db.get("select * from users where email= ?", req.body.email, userHandler);
 
   function userHandler(err, row) {
     if(err) throw err;
@@ -82,7 +81,7 @@ app.post('/login', function loginHandler(req, res){
 })
 
 app.post('/transfer', function tranferHandler(req, res){
-  db.get("select * from users where email= ?", req.body.toEmail, transferUserHandler)
+  db.get("select * from users where email= ?", req.body.toEmail, transferUserHandler);
 
   function transferUserHandler(err, row) {
     if(err) throw err;
@@ -106,7 +105,6 @@ app.post('/transfer', function tranferHandler(req, res){
 
         function totalHandler(err, row) {
           if(err) throw err;
-
           res.send(200);
         }
       }

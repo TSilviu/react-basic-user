@@ -98,6 +98,6 @@ export default class Register extends React.Component {
 
         <CardText>Already have an account? <Link to={'/login'}>Log in</Link></CardText>
       </form>
-    )
+    );
   }
 }

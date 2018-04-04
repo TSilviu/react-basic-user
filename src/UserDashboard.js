@@ -74,7 +74,7 @@ export default class UserDashboard extends React.Component {
     if(toUser) {
       toUserTransactions = toUser.map(
         transaction => <div>From {transaction.fromEmail}, amount: {transaction.amount}</div>
-      )
+      );
     }
 
     return (
