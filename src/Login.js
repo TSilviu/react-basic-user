@@ -33,6 +33,7 @@ export default class Login extends React.Component {
       .then(
         function onSuccess(response) {
           self.setState({error: ''});
+          self.props.onLogin(self.state.user);
         },
         function onError(res) {
           self.setState({error: res.response.data});
