@@ -56,6 +56,30 @@ app.post('/login', function loginHandler(req, res){
   }
 })
 
+app.post('/transfer', function tranferHandler(req, res){
+  db.get("select * from users where email= ?", req.body.toEmail, transferUserHandler)
+
+  function transferUserHandler(err, row) {
+    if(err) throw err;
+
+    if(row){
+      db.run(
+        'insert into transactions (fromEmail, toEmail, amount) values (?, ?, ?)',
+        [req.body.fromEmail, req.body.toEmail, req.body.amount],
+        transactionHandler
+      );
+
+      function transactionHandler(err, row){
+        if(err) throw err;
+
+        res.send(200);
+      }
+    } else {
+      res.status(400).send('No such email!');
+    }
+  }
+})
+
 // start the server
 app.listen(4000, () => {
   console.log('Server is running on http://localhost:4000 or http://127.0.0.1:4000');

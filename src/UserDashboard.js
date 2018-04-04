@@ -9,8 +9,9 @@ export default class UserDashboard extends React.Component {
     super(props);
 
     this.state = {
+      error: '',
       transfer: {
-        email: '',
+        toEmail: '',
         amount: ''
       }
     }
@@ -24,17 +25,27 @@ export default class UserDashboard extends React.Component {
 
     const self = this;
     const requestUrl = "http://localhost:4000/transfer";
-    const payload = this.state.transfer;
+    const amountNo = Number(this.state.transfer.amount);
 
-    axios.post(requestUrl, payload)
+    if(!isNaN(amountNo)){
+      const payload = {
+        toEmail: this.state.transfer.toEmail,
+        fromEmail: this.props.user.email,
+        amount: amountNo
+      };
+
+      axios.post(requestUrl, payload)
       .then(
         function onSuccess(response) {
-          console.log('transfer successful!');
+          self.setState({errpr: ''});
         },
         function onError(res) {
           self.setState({error: res.response.data});
         }
       );
+    } else {
+      this.setState({error: 'Please enter a valid number'});
+    }
   }
 
   changeTransferDetails(event) {
@@ -47,7 +58,7 @@ export default class UserDashboard extends React.Component {
 
 
   render() {
-    const { name, email, bambeuros } = this.props.user;
+    const { name, bambeuros } = this.props.user;
     return (
       <div>
       <AppBar title="Dashboard"/>
@@ -56,12 +67,14 @@ export default class UserDashboard extends React.Component {
       <form onSubmit={this.processForm}>
         <p>Send some bambeuros:</p>
 
+        {this.state.error !== '' && <p className="error">{this.state.error}</p>}
+
         <div>
           <TextField
             floatingLabelText="User email"
-            name="email"
+            name="toEmail"
             onChange={this.changeTransferDetails}
-            value={this.state.transfer.email}
+            value={this.state.transfer.toEmail}
           />
         </div>
 
